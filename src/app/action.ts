@@ -35,6 +35,153 @@ export async function getRestaurant(id: number): Promise<Restaurant> {
 	return response.json();
 }
 
+export type Review = {
+	id: number;
+	rating: number;
+	comment: string;
+	date: string;
+	restaurant: Restaurant;
+	user: UserDetails;
+};
+
+export async function getReviewsByRestaurantId(id: number) {
+	const response = await fetch(
+		`http://localhost:8080/api/restaurants/${id}/reviews`,
+		{
+			method: "GET",
+		}
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	return response.json();
+}
+
+export type AddReviewProps = {
+	rating?: number;
+	comment?: string;
+	userId?: number;
+};
+
+export async function addReviews(id: number, props: AddReviewProps) {
+	const response = await fetch(
+		`http://localhost:8080/api/restaurants/${id}/reviews`,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				...props,
+			}),
+		}
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	revalidatePath("/restaurant/[]", "page");
+	return response.json();
+}
+
+export type ReservationProps = {
+	restaurantId: number;
+	userId?: number;
+	reservationDate: Date | undefined;
+	note: string;
+	reservationTime: string;
+	countPeople: number;
+};
+
+export async function addReservations(props: ReservationProps) {
+	const response = await fetch(`http://localhost:8080/api/reservations`, {
+		method: "POST",
+		cache: "no-cache",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			...props,
+		}),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	revalidateTag("cancel-reservation");
+	return response.json();
+}
+
+export async function getReviewsByUserId(id: number | undefined, page: number) {
+	const response = await fetch(
+		`http://localhost:8080/api/users/${id}/reviews?page=${page}`,
+		{
+			method: "GET",
+			cache: "no-cache",
+		}
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	return response.json();
+}
+
+export async function getRandomRestaurant() {
+	const response = await fetch("http://localhost:8080/api/restaurants/random", {
+		method: "GET",
+		cache: "no-cache",
+	});
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	return await response.json();
+}
+
+export async function getReservationsByUser(
+	userId: number | undefined,
+	page: number
+) {
+	const response = await fetch(
+		`http://localhost:8080/api/users/${userId}/reservations?page=${page}`,
+		{
+			method: "GET",
+			next: {
+				tags: ["cancel-reservation"],
+				revalidate: 3600,
+			},
+		}
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	return await response.json();
+}
+
+export async function cancelReservation(reservationId: number) {
+	const response = await fetch(
+		`http://localhost:8080/api/reservations/${reservationId}/cancel`,
+		{
+			method: "PUT",
+		}
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	revalidateTag("cancel-reservation");
+}
+
+export async function updateUser(
+	formData: FormData,
+	userId: number | undefined
+) {
+	const response = await fetch(`http://localhost:8080/auth/${userId}/user`, {
+		method: "PUT",
+		body: formData,
+	});
+	if (!response.ok) {
+		throw new Error("Failed to fetch data");
+	}
+	revalidatePath("/");
+	return response.json();
+}
 
 export async function getTags() {
 	const response = await fetch(`http://localhost:8080/api/tags`, {
