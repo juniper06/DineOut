@@ -36,6 +36,8 @@ export default function Navbar() {
 				</div>
 
 				<div className="flex gap-5 items-center">
+					<Randomizer />
+					<SearchInput />
 					{!isLoading ? (
 						user.isAuthenticated ? (
 							<ProfileMenu />
@@ -73,6 +75,16 @@ const items = [
 		name: "Discover",
 		href: "/discover",
 		value: "discover",
+	},
+	{
+		name: "About Us",
+		href: "/about",
+		value: "aboutUs",
+	},
+	{
+		name: "Contact Us",
+		href: "/contact",
+		value: "contactUs",
 	},
 ];
 
