@@ -1,6 +1,7 @@
 package com.dineout.backend.dto.response;
 
 import com.dineout.backend.entity.User;
+
 import lombok.Data;
 
 @Data

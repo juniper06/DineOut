@@ -1,10 +1,11 @@
-package com.dineout.backend.service;
+package com.dineout.backend.services;
 
 
 import com.dineout.backend.dto.request.RestaurantRequest;
 import com.dineout.backend.dto.response.RestaurantResponse;
 import com.dineout.backend.entity.*;
 import com.dineout.backend.repository.RestaurantRepository;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
