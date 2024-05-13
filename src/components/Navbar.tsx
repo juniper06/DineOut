@@ -31,6 +31,7 @@ export default function Navbar() {
           <NavItems />
         </div>
 
+<<<<<<< HEAD
         <div className="flex gap-5 items-center">
           <Randomizer />
           <SearchInput />
@@ -74,6 +75,59 @@ const items = [
     href: "/discover",
     value: "discover",
   },
+=======
+				<div className="flex gap-5 items-center">
+					<Randomizer />
+					<SearchInput />
+					{!isLoading ? (
+						user.isAuthenticated ? (
+							<ProfileMenu />
+						) : (
+							<>
+								<Button
+									className="text-white font-bold tracking-wider"
+									variant="link"
+									asChild>
+									<Link href="/login">Login</Link>
+								</Button>
+								<Button
+									asChild
+									className="font-bold bg-red-500 p-3 px-5 text-white rounded-md tracking-wider hover:bg-red-400">
+									<Link href="/register">Register</Link>
+								</Button>
+							</>
+						)
+					) : (
+						<Loader className="animate-spin text-white" />
+					)}
+				</div>
+			</div>
+		</header>
+	);
+}
+
+const items = [
+	{
+		name: "Home",
+		href: "/",
+		value: "home",
+	},
+	{
+		name: "Discover",
+		href: "/discover",
+		value: "discover",
+	},
+	{
+		name: "About Us",
+		href: "/about",
+		value: "aboutUs",
+	},
+	{
+		name: "Contact Us",
+		href: "/contact",
+		value: "contactUs",
+	},
+>>>>>>> 6cae21c1b133eeb46dda2681ebd532df0bf95a55
 ];
 
 export function NavItems() {
