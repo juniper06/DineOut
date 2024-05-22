@@ -1,5 +1,5 @@
 "use client";
-import { addRestaurant } from "@/app/action";
+import { updateRestaurant } from "@/app/action";
 import { CuisineField } from "@/components/CuisineField";
 import { TagField } from "@/components/TagField";
 import { TypeField } from "@/components/TypeField";
@@ -20,8 +20,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-	name: z.string().min(1).max(120),
-	description: z.string().min(1),
+	name: z.string(),
+	description: z.string(),
 	serviceHours: z.string(),
 	location: z.string(),
 	tags: z.array(z.number()).nullable(),
@@ -36,11 +36,12 @@ export type ItemType = {
 	name: string;
 };
 
-export default function AddRestaurantForm({
-	closeDialog,
-}: {
+type Props = {
+	restaurant: Restaurant;
 	closeDialog: () => void;
-}) {
+};
+
+export default function UpdateRestaurantForm({ restaurant, closeDialog }: Props) {
 	const { toast } = useToast();
 	const [files, setFiles] = React.useState<FileList | null>(null);
 	const form = useForm<FormSchema>({
@@ -50,9 +51,9 @@ export default function AddRestaurantForm({
 			description: "",
 			serviceHours: "",
 			location: "",
-			tags: null,
-			type: null,
-			cuisine: null,
+			tags: restaurant.tags.map(tag => tag.id),
+			type: restaurant.type.id,
+			cuisine: restaurant.cuisine.id,
 		},
 	});
 	const onSubmit = async (values: FormSchema) => {
@@ -63,7 +64,7 @@ export default function AddRestaurantForm({
 			}
 		}
 		formData.append("restaurant", JSON.stringify(values));
-		await addRestaurant(formData)
+		await updateRestaurant(restaurant.id, formData)
 			.then(() => {
 				toast({
 					title: "Successfully Added",
@@ -103,7 +104,7 @@ export default function AddRestaurantForm({
 							<FormControl>
 								<Input
 									{...field}
-									placeholder="Enter restaurant name"
+									placeholder={restaurant.name}
 									className="col-span-3"
 								/>
 							</FormControl>
@@ -120,7 +121,7 @@ export default function AddRestaurantForm({
 							<FormControl>
 								<Textarea
 									rows={5}
-									placeholder="Enter description of restaurant"
+									placeholder={restaurant.description}
 									className="resize-none"
 									{...field}
 								/>
@@ -138,7 +139,7 @@ export default function AddRestaurantForm({
 							<FormControl>
 								<Input
 									{...field}
-									placeholder="e.g Open: 03:30AM - Closes: 05:00PM"
+									placeholder={restaurant.serviceHours}
 									className="col-span-3"
 								/>
 							</FormControl>
@@ -152,10 +153,10 @@ export default function AddRestaurantForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Location</FormLabel>
-							<FormControl>
+							<FormControl>       
 								<Input
 									{...field}
-									placeholder="e.g Cebu City, Cebu"
+									placeholder={restaurant.address}
 									className="col-span-3"
 								/>
 							</FormControl>
@@ -181,10 +182,10 @@ export default function AddRestaurantForm({
 				</FormItem>
 
 				<Button
-          disabled={form.formState.isSubmitting}
+					disabled={form.formState.isSubmitting}
 					type="submit"
 					variant="primary">
-					Add Restaurant
+					Update Restaurant
 				</Button>
 			</form>
 		</Form>

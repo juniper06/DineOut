@@ -29,7 +29,7 @@ export default function RestaurantCard({
 							: RestaurantImage
 					}
 					alt="Restaurant Image"
-					className="object-contain rounded-lg min-h-[160px] max-h-40"
+					className="object-contain rounded-lg min-h-[160px] max-h-40 bg-cornsilk-300"
 					width={208}
 					height={208}
 				/>

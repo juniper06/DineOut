@@ -1,109 +1,183 @@
-import { getCuisines, getRestaurants, getTags, getTypes } from "@/app/action";
-import AddRestaurantButton from "@/components/AddRestaurantButton";
-import FilterNav from "@/components/FilterNav";
-import Footer from "@/components/Footer";
-import Pagination from "@/components/Pagination";
-import RestaurantCard from "@/components/RestaurantCard";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+"use client";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { MdOutlineStar } from "react-icons/md";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { MdOutlineTableRestaurant } from "react-icons/md";
+import { GrRestaurant } from "react-icons/gr";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import { RiRestaurantLine } from "react-icons/ri";
+import useFilterParams from "@/components/hooks/useFilterParams";
 
-export type SearchParams = {
-	searchParams?: RestaurantQuery;
+type FilterType = {
+	id: number;
+	name: string;
 };
 
-export default async function Discover({ searchParams }: SearchParams) {
-	const response: ApiResponse = await getRestaurants(searchParams || {});
-	const restaurants = response.content;
-  const types = await getTypes();
-  const cuisines = await getCuisines();
-  const tags = await getTags();
+type Props = {
+	types: FilterType[];
+	cuisines: FilterType[];
+	tags: FilterType[];
+};
+
+export default function FilterNav({ types, cuisines, tags }: Props) {
+	return (
+		<ScrollArea className="h-full w-full bg-cornsilk-500">
+			<div className="p-4 py-14 flex flex-col mb-40">
+				<h1 className="font-semibold text-xl mb-5">Quick Filters</h1>
+				<div className="flex space-x-2 items-center my-5">
+					<MdOutlineStar className="text-xl" />
+					<h3 className="font-semibold">Rating</h3>
+				</div>
+				<Ratings />
+				<div className="flex gap-2 mb-5 mt-10 items-center">
+					<MdOutlineTableRestaurant className="text-xl" />
+					<h3 className="font-semibold">Type</h3>
+				</div>
+				<Types items={types}/>
+				<div className="flex gap-2 mb-5 mt-10 items-center">
+					<GrRestaurant className="text-xl" />
+					<h3 className="font-semibold">Tags</h3>
+				</div>
+				<Tags items={tags}/>
+				<div className="flex space-x-2 items-center my-5">
+					<RiRestaurantLine className="text-xl" />
+					<h3 className="font-semibold">Cuisine</h3>
+				</div>
+				<Cuisines items={cuisines}/>
+			</div>
+		</ScrollArea>
+	);
+}
+
+function FilterGroup({
+	items,
+	paramName,
+}: {
+	items: FilterType[];
+	paramName: string;
+}) {
+	const { defaultValue, handleFilterChange } = useFilterParams(paramName);
 
 	return (
-		<div className="h-screen pt-[140px] .scroll">
-			<div className="container flex justify-center">
-				<aside className="h-full top-[140px] w-[250px] max-w-[250px]">
-					<FilterNav types={types} cuisines={cuisines} tags={tags} />
-				</aside>
-				<div className="py-14 h-3/4 w-full">
-          <div className="flex justify-between">
-          <h1 className="text-2xl font-bold mb-3">
-						Top Restaurants Near Me{" "}
-						<span className="text-sm text-gray-500">
-							( {response.numberOfElements} )
-						</span>
-					</h1>
-          <AddRestaurantButton />
-          </div>
-					
-					<div className="grid grid-cols-4 gap-5 mb-10">
-						{restaurants.map(restaurant => (
-							<Link
-								href={`/restaurant/${restaurant.id}`}
-								key={restaurant.id}>
-								<RestaurantCard
-									image={restaurant.images[0]}
-									name={restaurant.name}
-									location={restaurant.address}
-									ratings={restaurant.ratings !== 0 ? restaurant.ratings : 5}
-								/>
-							</Link>
-						))}
-					</div>
-					<Pagination
-						totalPages={response.totalPages}
-						page={Number(searchParams?.page) || 1}
+		<RadioGroup
+			defaultValue={defaultValue}
+			onValueChange={handleFilterChange}
+			className="gap-y-3 mb-4">
+			{items.map(item => (
+				<div
+					className="flex items-center space-x-2"
+					key={item.id}>
+					<RadioGroupItem
+						value={item.name}
+						id={item.name}
 					/>
+					<Label
+						htmlFor={item.name}
+						className="cursor-pointer">
+						{item.name}
+					</Label>
 				</div>
-			</div>
-			<div className="h-[500px]">
-				<div className="container flex gap-x-24">
-					<div className="flex flex-col gap-y-3">
-						<h1 className="text-2xl font-bold">Discover</h1>
-						<p className="text-gray-500">Nearby Restaurants</p>
-						<p className="text-gray-500">Recommendations</p>
-						<p className="text-gray-500">Randomizer</p>
-					</div>
-					<div className="flex flex-col gap-y-3">
-						<h1 className="text-2xl font-bold">Company</h1>
-						<p className="text-gray-500">About Us</p>
-						<p className="text-gray-500">Contact Us</p>
-						<p className="text-gray-500">Terms of use</p>
-						<p className="text-gray-500">Privacy</p>
-						<p className="text-gray-500">Help Center</p>
-					</div>
-					<div className="flex flex-col gap-y-3">
-						<h1 className="text-2xl font-bold">Business</h1>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							Promote Business
-						</p>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							DineOut Pro
-						</p>
-					</div>
-					<div className="flex flex-col gap-y-3">
-						<h1 className="text-2xl font-bold">Follow</h1>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							<FaFacebook />
-							Facebook
-						</p>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							<FaTwitter />
-							Twitter
-						</p>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							<FaInstagram />
-							Instagram
-						</p>
-						<p className="text-gray-500 flex items-center gap-x-2">
-							<FaYoutube />
-							Youtube
-						</p>
-					</div>
+			))}
+		</RadioGroup>
+	);
+}
+
+function Tags({ items }: { items: FilterType[] }) {
+	const searchParams = useSearchParams();
+	const [checkedValues, setCheckedValues] = React.useState<string[]>([]);
+	const { replace } = useRouter();
+	const pathname = usePathname();
+
+	React.useEffect(() => {
+		const params = new URLSearchParams(searchParams);
+		params.set("tags", checkedValues.toString());
+		if (checkedValues.length === 0) {
+			params.delete("tags");
+		}
+		replace(`${pathname}?${params.toString()}`);
+	}, [checkedValues]);
+
+	React.useEffect(() => {
+		const tagsParam = searchParams.get("tags");
+		if (tagsParam) {
+			const tags = tagsParam.split(",");
+			setCheckedValues(tags);
+		}
+	}, [searchParams]);
+
+	const handleCheckboxChange = (isChecked: CheckedState, value: string) => {
+		if (isChecked) {
+			setCheckedValues(prevValues => [...prevValues, value]);
+		} else {
+			setCheckedValues(prevValues => prevValues.filter(val => val !== value));
+		}
+	};
+
+	return (
+		<div className="gap-y-3 mb-10 flex flex-col">
+			{items.map(item => (
+				<div
+					className="flex items-center space-x-2"
+					key={item.id}>
+					<Checkbox
+						name="tags"
+						value={item.name}
+						id={item.name}
+						checked={checkedValues.includes(item.name)}
+						onCheckedChange={isChecked =>
+							handleCheckboxChange(isChecked, item.name)
+						}
+						className="data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500"
+					/>
+					<Label
+						htmlFor={item.name}
+						className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+						{item.name}
+					</Label>
 				</div>
-			</div>
-			<Footer />
+			))}
 		</div>
+	);
+}
+
+function Ratings() {
+	return (
+		<FilterGroup
+			items={[
+				{ id: 1, name: "All" },
+				{ id: 2, name: "5" },
+				{ id: 3, name: "4" },
+				{ id: 4, name: "3" },
+				{ id: 5, name: "2" },
+				{ id: 6, name: "1" },
+			]}
+			paramName="ratings"
+		/>
+	);
+}
+
+function Types({ items }: { items: FilterType[] }) {
+  const updatedItems = [{ id: 0, name: "All" }, ...items];
+
+	return (
+		<FilterGroup
+			items={updatedItems}
+			paramName="type"
+		/>
+	);
+}
+
+function Cuisines({ items }: { items: FilterType[] }) {
+  const updatedItems = [{ id: 0, name: "All" }, ...items];
+
+	return (
+		<FilterGroup
+			items={updatedItems}
+			paramName="cuisine"
+		/>
 	);
 }

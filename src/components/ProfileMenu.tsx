@@ -15,18 +15,18 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function ProfileMenu() {
-  const { toast } = useToast();
+	const { toast } = useToast();
 	const { user, onLogout } = useAuth();
 	const [open, setOpen] = React.useState(false);
 
-  const handleLogout = async () => {
-    await onLogout();
-    toast({
-      title: "Successfully logged out",
-      description: "You may logged in",
-      variant: "success"
-    })
-  }
+	const handleLogout = async () => {
+		await onLogout();
+		toast({
+			title: "Successfully logged out",
+			description: "You may logged in",
+			variant: "success",
+		});
+	};
 
 	return (
 		<Popover
@@ -50,6 +50,21 @@ export default function ProfileMenu() {
 							@{user.userDetails?.username}
 						</span>
 					</h3>
+					<Link
+						href="/profile"
+						className="flex hover:bg-red-100 transition-colors duration-300 p-3 cursor-pointer rounded-md text-sm font-medium"
+						onClick={() => setOpen(false)}>
+						Profile
+					</Link>
+					{user.userDetails?.role === "ADMIN" && (
+						<Link
+							href="/dashboard"
+							className="flex hover:bg-red-100 transition-colors duration-300 p-3 cursor-pointer rounded-md text-sm font-medium"
+							onClick={() => setOpen(false)}>
+							Dashboard
+						</Link>
+					)}
+
 					<Button
 						variant="ghost"
 						className="flex hover:bg-red-100 transition-colors duration-300 p-3 cursor-pointer rounded-md justify-start text-sm font-medium"

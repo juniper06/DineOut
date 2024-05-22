@@ -4,7 +4,14 @@ import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "../ui/form";
 import { Button } from "../ui/button";
 import useAuth from "@/components/hooks/useAuth";
 import { useRouter } from "next/navigation";
@@ -46,6 +53,11 @@ export default function LoginForm() {
 			}),
 		});
 		const data = await response.json();
+    if (response.status === 403) {
+      console.log("hello world")
+			form.setError("username", {type: "validate", message: data.message});
+			return;
+		}
 		if (response.status != 200) {
 			toast({
 				variant: "destructive",
@@ -63,12 +75,13 @@ export default function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col w-3/4 gap-10 pt-7">
+				className="flex flex-col w-3/4 gap-5 pt-7">
 				<FormField
 					control={form.control}
 					name="username"
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>Username</FormLabel>
 							<FormControl>
 								<Input
 									placeholder="Enter Username"
@@ -76,6 +89,7 @@ export default function LoginForm() {
 									{...field}
 								/>
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -84,6 +98,7 @@ export default function LoginForm() {
 					name="password"
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>Password</FormLabel>
 							<FormControl>
 								<Input
 									type="password"
@@ -92,10 +107,12 @@ export default function LoginForm() {
 									{...field}
 								/>
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<Button
+          disabled={form.formState.isSubmitting}
 					variant="primary"
 					className="h-14 text-xl font-light"
 					type="submit">

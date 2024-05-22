@@ -1,20 +1,23 @@
 "use client";
-import { addReviews } from "@/app/action";
-import useAuth from "@/components/hooks/useAuth";
+import { updateReview } from "@/app/action";
 import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import React, { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 
-export default function ReviewForm({ id }: { id: number }) {
+export default function UpdateReviewForm({
+	id,
+	closeDialog,
+}: {
+	id: number;
+	closeDialog: () => void;
+}) {
 	const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
 	const [rating, setRating] = useState(5);
-	const { user } = useAuth();
-  const { toast } = useToast();
-  
+	const { toast } = useToast();
+
 	const handleTextAreaInput = () => {
 		const textarea = textAreaRef.current;
 
@@ -33,17 +36,14 @@ export default function ReviewForm({ id }: { id: number }) {
 			});
 			return;
 		}
-		await addReviews(id, {
-			userId: user.userDetails?.id,
-			comment: textAreaRef.current?.value,
-			rating: rating,
-		});
+		await updateReview(id, textAreaRef.current?.value, rating);
 		if (textAreaRef.current) {
 			textAreaRef.current.value = "";
 		}
-    toast({
-			title: "Successfully Added",
-			description: "Your Review has been added.",
+		closeDialog();
+		toast({
+			title: "Successfully Updated",
+			description: "Your Review has been updated.",
 			variant: "success",
 			action: (
 				<ToastAction
@@ -55,19 +55,6 @@ export default function ReviewForm({ id }: { id: number }) {
 		});
 		setRating(5);
 	};
-
-	if (!user.isAuthenticated) {
-		return (
-			<div className="w-full bg-white p-4 rounded-lg flex-col flex">
-				<h1 className="text-center font-semibold text-2xl">
-					Please log in to add review 
-				</h1>
-				<Link href="/login" className="text-center">
-					<Button variant="link">Click here to Login</Button>
-				</Link>
-			</div>
-		);
-	}
 
 	return (
 		<div className="w-full bg-white flex p-4 rounded-lg">
@@ -98,7 +85,7 @@ export default function ReviewForm({ id }: { id: number }) {
 					size="lg"
 					onClick={handleSubmitForm}
 					className="drop-shadow-md w-fit rounded-xl">
-					Post review
+					Update review
 				</Button>
 			</div>
 		</div>

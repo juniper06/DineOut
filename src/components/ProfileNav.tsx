@@ -8,6 +8,24 @@ import { FaUser } from "react-icons/fa";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdOutlineStar } from "react-icons/md";
 
+const items = [
+	{
+		name: "PROFILE",
+		href: "/profile",
+		icon: <FaUser />,
+	},
+	{
+		name: "RESERVATIONS",
+		href: "/profile/reservations",
+		icon: <ImSpoonKnife />,
+	},
+	{
+		name: "REVIEWS MADE",
+		href: "/profile/reviews",
+		icon: <MdOutlineStar />,
+	},
+];
+
 export default function ProfileNav() {
 	const pathName = usePathname();
 	return (

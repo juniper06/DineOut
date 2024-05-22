@@ -11,14 +11,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		<main className="bg-cornsilk-500 min-h-screen flex flex-col justify-center items-center">
 			<div className="flex rounded-2xl overflow-hidden">
 				<div className="md:flex hidden bg-orange-500 flex-1 w-[500px] py-10 flex-col justify-between overflow-hidden">
-					<h1
-						className={cn(
-							"px-14 text-center text-4xl text-white font-bold",
-							roboto_slab.className
-						)}>
-						Your Companion in Uncovering Delicious Dining
-					</h1>
-					<div className="h-32 bg-red-600 relative">
+					<div className="flex h-full justify-center items-center">
+						<h1
+							className={cn(
+								"text-center text-5xl text-white font-bold",
+								roboto_slab.className
+							)}>
+							Your Companion in Uncovering Delicious Dining
+						</h1>
+					</div>
+
+					<div className="h-2/3 bg-red-600 relative">
 						<Image
 							src={FoodsImage}
 							alt="Foods"

@@ -7,6 +7,7 @@ import React, {
 	useState,
 } from "react";
 import { getUserCookie, removeUserCookie, setUserCookie } from "@/lib/cookies";
+import { usePathname, useRouter } from "next/navigation";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -56,9 +57,11 @@ export const defaultUserValue = {
 	isAuthenticated: false,
 };
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<User>(defaultUserValue);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const { push } = useRouter();
+	const pathName = usePathname();
 
 	useEffect(() => {
 		const updateUser = async () => {
@@ -69,22 +72,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			setUser(cookiesUser);
 			setIsLoading(false);
 		};
-
 		updateUser();
 	}, []);
 
-	const onLogin = async ({ userDetails, token }: User) => {
-		const newUser: User = { userDetails, token, isAuthenticated: true };
-		setUser(newUser);
-		await setUserCookie(newUser);
-	};
+	useEffect(() => {
+		if (
+			!user.isAuthenticated &&
+			["/dashboard", "/profile"].includes(pathName) &&
+			!isLoading
+		) {
+			push("/");
+		}
+	}, [user.isAuthenticated, isLoading]);
 
-	const onLogout = async () => {
-    setIsLoading(true);
-		setUser(defaultUserValue);
+	const onLogin = React.useCallback(
+		async ({ userDetails, token }: User) => {
+			const newUser: User = { userDetails, token, isAuthenticated: true };
+			setUser(newUser);
+			await setUserCookie(newUser);
+		},
+		[user.isAuthenticated]
+	);
+
+	const onLogout = React.useCallback(async () => {
+		setIsLoading(true);
 		await removeUserCookie();
-    setIsLoading(false);
-	};
+		setUser(defaultUserValue);
+		setIsLoading(false);
+	}, []);
 
 	const value: AuthContextType = { user, onLogin, onLogout, isLoading };
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
