@@ -10,7 +10,6 @@ import { Loader } from "lucide-react";
 import ProfileMenu from "@/components/ProfileMenu";
 import useScrolled from "@/components/hooks/useScrolled";
 import { usePathname } from "next/navigation";
-import Randomizer from "@/components/Randomizer";
 import SearchInput from "@/components/SearchInput";
 
 export default function Navbar() {
@@ -36,7 +35,6 @@ export default function Navbar() {
 				</div>
 
 				<div className="flex gap-5 items-center">
-					<Randomizer />
 					<SearchInput />
 					{!isLoading ? (
 						user.isAuthenticated ? (

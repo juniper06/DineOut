@@ -9,7 +9,7 @@ export default function Footer({ className }: { className?: string }) {
 				className
 			)}>
 			<h3 className="text-white font-semibold">DineOut</h3>
-			<p className="text-slate-300">Copyright &copy; 2023 DineOut, Inc</p>
+			<p className="text-slate-300">Copyright &copy; 2024 DineOut, Inc</p>
 		</div>
 	);
 }

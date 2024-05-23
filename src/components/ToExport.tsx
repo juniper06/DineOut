@@ -1,15 +1,11 @@
 "use client";
 import AddRestaurantButton from "@/components/AddRestaurantButton";
 import RestaurantsTable from "@/components/RestaurantsTable";
-import { Button } from "@/components/ui/button";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const ToExport = ({ restaurants }: { restaurants: Restaurant[] }) => {
 	const containerExport = useRef(null);
-	const handlePrint = useReactToPrint({
-		content: () => containerExport.current,
-	});
 
 	return (
 		<div
@@ -20,12 +16,6 @@ const ToExport = ({ restaurants }: { restaurants: Restaurant[] }) => {
 			</h1>
 			<div className="flex justify-between">
 				<AddRestaurantButton />
-				<Button
-					onClick={handlePrint}
-					variant="outline"
-					className="bg-transparent text-white">
-					Export to PDF
-				</Button>
 			</div>
 			<RestaurantsTable restaurants={restaurants} />
 		</div>
