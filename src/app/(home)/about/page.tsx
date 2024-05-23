@@ -1,8 +1,11 @@
 import React from "react";
 import AlexaImage from "@/assets/image/alexa.jpg";
-import EllaineImage from "@/assets/image/ellaine.jpg";
+import BiancaImage from "@/assets/image/bianca.jpg";
 import EarlImage from "@/assets/image/earl.png";
 import MJImage from "@/assets/image/mj.png";
+import TejeroImage from "@/assets/image/tejero.png";
+import BasImage from "@/assets/image/bas.jpg";
+import GabrielImage from "@/assets/image/gab.png";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
@@ -40,19 +43,62 @@ export default function AboutUsPage() {
 					</div>
 					<div className="rounded-xl shadow-lg bg-white">
 						<Image
-							src={EllaineImage}
+							src={BiancaImage}
 							alt="Image 1"
 							width={150}
 							height={150}
 							className="h-[150px] object-cover rounded-xl mx-8 mt-4"
 						/>
 						<div className="flex flex-col gap-y-2 my-4">
-							<h1 className="text-center font-bold">Ellaine Joyce A. Claro</h1>
+							<h1 className="text-center font-bold">Bhea Bianca Melicor</h1>
 							<h1 className="text-center pb-4 font-medium">
-								"Life is like riding <br />a bicycle. To keep your <br />
-								balance, you must <br />
-								keep moving."
+								"When the sun shines, <br /> we'll shine together."
 							</h1>
+						</div>
+					</div>
+					<div className="rounded-xl shadow-lg bg-white max-w-full">
+						<Image
+							src={TejeroImage}
+							alt="Image 1"
+							width={150}
+							height={150}
+							className="h-[150px] object-cover rounded-xl mx-8 mt-4"
+						/>
+						<div className="flex flex-col gap-y-2 my-4">
+							<h1 className="text-center font-bold">Mary Jessica Tejero</h1>
+							<p className="text-center font-medium">
+								"Bahala na si BATMAN."
+							</p>
+						</div>
+					</div>
+					<div className="rounded-xl shadow-lg bg-white max-w-full">
+						<Image
+							src={BasImage}
+							alt="Image 1"
+							width={150}
+							height={150}
+							className="h-[150px] object-cover rounded-xl mx-8 mt-4"
+						/>
+						<div className="flex flex-col gap-y-2 my-4">
+							<h1 className="text-center font-bold">Jeuz Vinci Bas</h1>
+							<p className="text-center font-medium">
+								"I Believe I cant fly."
+							</p>
+						</div>
+					</div>
+					<div className="rounded-xl shadow-lg bg-white max-w-full">
+						<Image
+							src={GabrielImage}
+							alt="Image 1"
+							width={150}
+							height={150}
+							className="h-[150px] object-cover rounded-xl mx-8 mt-4"
+						/>
+						<div className="flex flex-col gap-y-2 my-4">
+							<h1 className="text-center font-bold">Juniper Gabriel</h1>
+							<p className="text-center font-medium">
+								"Don't stop when you're tired <br/> Stop when you're done."
+							</p>
 						</div>
 					</div>
 					<div className="rounded-xl shadow-lg bg-white max-w-full">
@@ -64,10 +110,9 @@ export default function AboutUsPage() {
 							className="h-[150px] object-cover rounded-xl mx-8 mt-4"
 						/>
 						<div className="flex flex-col gap-y-2 my-4">
-							<h1 className="text-center font-bold">Earl Nobe</h1>
+							<h1 className="text-center font-bold">Juniper Gabriel</h1>
 							<p className="text-center font-medium">
-								"Eat, Sleep, Code, <br />
-								Repeat."
+								"CODE.EAT.SLEEP. <br />REPEAT"
 							</p>
 						</div>
 					</div>
