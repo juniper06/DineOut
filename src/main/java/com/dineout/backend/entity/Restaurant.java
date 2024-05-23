@@ -60,4 +60,3 @@ public class Restaurant {
         return Math.round(sumRatings / reviews.size());
     }
 }
-

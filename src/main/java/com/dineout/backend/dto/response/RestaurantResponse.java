@@ -1,5 +1,6 @@
 package com.dineout.backend.dto.response;
 
+
 import com.dineout.backend.entity.*;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class RestaurantResponse {
     private List<String> images;
     private Long ratings;
 
-    public RestaurantResponse(Restaurant restaurant) {
+    public RestaurantResponse(Restaurant restaurant){
         id = restaurant.getId();
         name = restaurant.getName();
         description = restaurant.getDescription();
@@ -29,6 +30,6 @@ public class RestaurantResponse {
         type = restaurant.getType();
         cuisine = restaurant.getCuisine();
         images = restaurant.getImages();
-        ratings = restaurant.getAverageRating() == 0 ? 5 : restaurant.getAverageRating();
+        ratings = restaurant.getAverageRating() == 0 ? 5 : restaurant.getAverageRating() ;
     }
 }

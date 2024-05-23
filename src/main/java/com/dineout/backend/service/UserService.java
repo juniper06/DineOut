@@ -1,5 +1,6 @@
 package com.dineout.backend.service;
 
+
 import com.dineout.backend.entity.User;
 import com.dineout.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class UserService {
         }
     }
 
-    public void saveUser(User user) {
+    public void saveUser(User user){
         userRepository.save(user);
     }
 

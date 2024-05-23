@@ -1,5 +1,6 @@
 package com.dineout.backend.controller;
 
+
 import com.dineout.backend.dto.request.RestaurantRequest;
 import com.dineout.backend.dto.request.ReviewRequest;
 import com.dineout.backend.dto.response.RestaurantResponse;
@@ -37,7 +38,7 @@ public class RestaurantController {
 
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestParam(name = "images", required = false) List<MultipartFile> images,
-            @RequestParam("restaurant") String restaurantJson) {
+                                           @RequestParam("restaurant") String restaurantJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             RestaurantRequest restaurantRequest = objectMapper.readValue(restaurantJson, RestaurantRequest.class);
@@ -83,8 +84,8 @@ public class RestaurantController {
 
     @PutMapping("/{restaurantId}")
     public ResponseEntity<?> updateRestaurant(@RequestParam(name = "restaurant") String restaurantJson,
-            @RequestParam(name = "images", required = false) List<MultipartFile> images,
-            @PathVariable Long restaurantId) {
+                                              @RequestParam(name = "images", required = false) List<MultipartFile> images,
+                                              @PathVariable Long restaurantId) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             RestaurantRequest restaurantRequest = objectMapper.readValue(restaurantJson, RestaurantRequest.class);
@@ -153,7 +154,7 @@ public class RestaurantController {
 
     @PostMapping("/{restaurantId}/images")
     public ResponseEntity<?> addImage(@PathVariable Long restaurantId,
-            @RequestParam(name = "image") MultipartFile image) {
+                                      @RequestParam(name = "image") MultipartFile image) {
         try {
             imageService.uploadImage(image);
             Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);

@@ -1,11 +1,10 @@
-package com.dineout.backend.services;
+package com.dineout.backend.service;
 
 
 import com.dineout.backend.dto.request.RestaurantRequest;
 import com.dineout.backend.dto.response.RestaurantResponse;
 import com.dineout.backend.entity.*;
 import com.dineout.backend.repository.RestaurantRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +83,7 @@ public class RestaurantService {
             }
 
 
-            
+            // Search by name or location
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 predicates.add(criteriaBuilder.or(
                         criteriaBuilder.like(root.get("name"), "%" + searchQuery + "%"),

@@ -45,15 +45,14 @@ public class AuthenticationController {
             return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (EntityExistsException e) {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.CONFLICT);
-        } catch (Exception e) {
+        }catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{userId}/user")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId,
-            @RequestParam(name = "image", required = false) MultipartFile image,
-            @RequestParam(name = "user") String userJson) {
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestParam(name = "image", required = false) MultipartFile image,
+                                        @RequestParam(name = "user") String userJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             User user = objectMapper.readValue(userJson, User.class);

@@ -1,5 +1,6 @@
 package com.dineout.backend.dto.request;
 
+
 import lombok.Data;
 
 @Data

@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.dineout.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,5 +1,6 @@
 package com.dineout.backend.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -40,7 +41,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Reservation> reservations;
 
-    public enum Gender {
+    public enum Gender{
         MALE,
         FEMALE,
         OTHER,

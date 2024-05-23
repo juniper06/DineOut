@@ -1,5 +1,6 @@
 package com.dineout.backend.service;
 
+
 import com.dineout.backend.entity.Cuisine;
 import com.dineout.backend.repository.CuisineRepository;
 import jakarta.persistence.EntityNotFoundException;

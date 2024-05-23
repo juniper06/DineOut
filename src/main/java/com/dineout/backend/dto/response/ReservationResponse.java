@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 
+
 @Data
 public class ReservationResponse {
     private Long id;
@@ -15,7 +16,7 @@ public class ReservationResponse {
     private boolean cancelled;
     private RestaurantResponse restaurant;
 
-    public ReservationResponse(Reservation reservation) {
+    public ReservationResponse(Reservation reservation){
         id = reservation.getId();
         reservationDate = reservation.getReservationDate();
         reservationTime = reservation.getReservationTime();

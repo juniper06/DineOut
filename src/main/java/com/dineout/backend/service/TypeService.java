@@ -1,5 +1,6 @@
 package com.dineout.backend.service;
 
+
 import com.dineout.backend.entity.Cuisine;
 import com.dineout.backend.entity.Type;
 import com.dineout.backend.repository.TypeRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 public class TypeService {
     private final TypeRepository typeRepository;
 
-    public Type addType(Type type) {
+    public Type addType(Type type){
         return typeRepository.save(type);
     }
 
@@ -26,7 +27,7 @@ public class TypeService {
         typeRepository.deleteById(typeId);
     }
 
-    public Type getTypeById(Long id) {
+    public Type getTypeById(Long id){
         return typeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Type not found"));
     }
 }

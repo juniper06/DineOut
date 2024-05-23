@@ -1,5 +1,6 @@
 package com.dineout.backend.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

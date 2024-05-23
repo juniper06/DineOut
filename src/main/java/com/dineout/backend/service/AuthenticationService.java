@@ -35,15 +35,14 @@ public class AuthenticationService {
         User newUser = User.builder().username(registerRequest.getUsername())
                 .name(registerRequest.getFirstName() + " " + registerRequest.getLastName())
                 .password(passwordEncoder.encode(
-                        registerRequest.getPassword()))
-                .email(registerRequest.getEmail()).role(Role.USER).build();
+                        registerRequest.getPassword())).email(registerRequest.getEmail()).role(Role.USER).build();
         User user = userRepository.save(newUser);
         return new LoginResponse(user, jwtService.generateToken(user));
     }
 
     public LoginResponse loginUser(LoginRequest loginRequest) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(loginRequest.getUsername());
-        if (user == null) {
+        if(user == null){
             throw new UsernameNotFoundException("Username is incorrect");
         }
         authenticationManager.authenticate(

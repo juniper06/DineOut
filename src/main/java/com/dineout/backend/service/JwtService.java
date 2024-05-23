@@ -31,10 +31,10 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUsername(token);
-        // return (userName.equals(userDetails.getUsername())) &&
-        // !isTokenExpired(token); // Uncomment this if you want add a expiration date
+//        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token); // Uncomment this if you want add a expiration date
         return (userName.equals(userDetails.getUsername()));
     }
+
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
         final Claims claims = extractAllClaims(token);
@@ -45,7 +45,7 @@ public class JwtService {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() +
-                        1000 * 60 * 24)) // Uncomment this if you want to add expiration date
+                        1000 * 60 * 24))  // Uncomment this if you want to add expiration date
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
